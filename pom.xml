@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mkyong.common</groupId>
-	<artifactId>spring-mvc-log4j</artifactId>
+	<artifactId>monitor-example</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>SpringMVC + Log4j</name>
+	<name>monitor-example</name>
 
 	<properties>
 		<jdk.version>1.7</jdk.version>
@@ -152,7 +152,7 @@
 				<configuration>
 					<scanIntervalSeconds>10</scanIntervalSeconds>
 					<webApp>
-						<contextPath>/spring-mvc-log4j</contextPath>
+						<contextPath>/monitor-example</contextPath>
 					</webApp>
 				</configuration>
 			</plugin>
@@ -166,7 +166,7 @@
 					<downloadSources>true</downloadSources>
 					<downloadJavadocs>true</downloadJavadocs>
 					<wtpversion>2.0</wtpversion>
-					<wtpContextName>spring-mvc-log4j</wtpContextName>
+					<wtpContextName>monitor-example</wtpContextName>
 				</configuration>
 			</plugin>
 

@@ -3,7 +3,7 @@
 	      http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
 
-	<display-name>Spring MVC + log4j Web Application</display-name>
+	<display-name>monitor-example Web Application</display-name>
 
 	<servlet>
 		<servlet-name>hello-dispatcher</servlet-name>
