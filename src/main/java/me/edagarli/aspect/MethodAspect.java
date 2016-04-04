@@ -24,10 +24,10 @@ import java.util.Date;
 public class MethodAspect {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodAspect.class);
-    
+
     public static final String EDP = "execution(* com.mkyong.common.controller..*.*(..))";
 
-//    @Before(EDP)    //spring中Before通知
+    //    @Before(EDP)    //spring中Before通知
 //    public void logBefore() {
 //        System.out.println("logBefore:现在时间是:"+new Date());
 //    }
@@ -40,20 +40,20 @@ public class MethodAspect {
 //
 //    @Around(EDP)
     public Object validator(ProceedingJoinPoint joinPoint) throws Throwable {
-        Gson gson=new Gson();
+        Gson gson = new Gson();
 
         String cName = joinPoint.getTarget().getClass().getName();
-        Method method = ((MethodSignature)joinPoint.getSignature()).getMethod();
-        Object[]args=getArgs(joinPoint);
+        Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
+        Object[] args = getArgs(joinPoint);
 
-        long sTime=System.nanoTime();
-     //   logger.error(cName + "." + method.getName() + "  " + gson.toJson(args));
-        System.out.println("logAround开始:现在时间是:"+new Date());
-        Object result=  joinPoint.proceed(args); //调用目标方法
-        System.out.println("logAround结束:现在时间是:"+new Date());
-        long eTime=System.nanoTime();
+        long sTime = System.nanoTime();
+        //   logger.error(cName + "." + method.getName() + "  " + gson.toJson(args));
+        System.out.println("logAround开始:现在时间是:" + new Date());
+        Object result = joinPoint.proceed(args); //调用目标方法
+        System.out.println("logAround结束:现在时间是:" + new Date());
+        long eTime = System.nanoTime();
 
-        StringBuffer buffer=new StringBuffer();// 这里要不要用 StringBuffer，但其效率高
+        StringBuffer buffer = new StringBuffer();// 这里要不要用 StringBuffer，但其效率高
         buffer.append(cName).
                 append(".").
                 append(method.getName()).
@@ -62,7 +62,7 @@ public class MethodAspect {
                 append("  result ").
                 append(gson.toJson(result)).
                 append("  consumeTime: ").
-                append((eTime-sTime)/1000000).
+                append((eTime - sTime) / 1000000).
                 append(" ms");
 
 
@@ -73,7 +73,7 @@ public class MethodAspect {
     }
 
 
-    public Object[] getArgs(ProceedingJoinPoint joinPoint){
+    public Object[] getArgs(ProceedingJoinPoint joinPoint) {
         Object[] arguments = joinPoint.getArgs();
         return arguments;
     }

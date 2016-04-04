@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class EdagarliGithubServiceImpl implements EdagarliGithubService {
     @Override
     public String address() {
-        for(int i=0;i<1000000;i++){
+        for (int i = 0; i < 1000000; i++) {
 
         }
         return "http://github.com/edagarli";
@@ -22,7 +22,7 @@ public class EdagarliGithubServiceImpl implements EdagarliGithubService {
 
     @Override
     public String projectAddress() {
-        for(int i=0;i<1000000;i++){
+        for (int i = 0; i < 1000000; i++) {
 
         }
         return "https://github.com/edagarli/monitor-example";

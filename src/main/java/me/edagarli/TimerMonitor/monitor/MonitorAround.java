@@ -11,16 +11,15 @@ import java.util.LinkedList;
 
 /**
  * Created by zongzi on 2016/3/10.
- *
- *
+ * <p/>
+ * <p/>
  * 输出格式为
  * A[0-50]50ms
- *---B[20-30]30ms
- *-----C[25-28]3ms
- *
+ * ---B[20-30]30ms
+ * -----C[25-28]3ms
  */
 public class MonitorAround {
-//    Logger logger = LoggerFactory.getLogger(MonitorAround.class);
+    //    Logger logger = LoggerFactory.getLogger(MonitorAround.class);
     Logger loggerMonitor = LoggerFactory.getLogger(MonitorAround.class);//打印超时的方法栈的日志
 
     private int maxTime = 300;
@@ -46,7 +45,7 @@ public class MonitorAround {
             /*End run method*/
             long endTime = System.nanoTime();
             questInfo.decreaseLevel();
-            MethodInfo methodInfo=new MethodInfo(
+            MethodInfo methodInfo = new MethodInfo(
                     questInfo.getLevel(),/*层次*/
                     joinpoint.getSignature().toString(),/*方法名字*/
                     startTime,/*开始时间*/
@@ -56,10 +55,10 @@ public class MonitorAround {
             if (questInfo.getLevel() == 0) {//最外层判断是否超过最大时间值
                 myThreadLocal.remove();//清理
 //                if (( endTime-startTime) > maxTime*1000000) {//我听说除法效率比乘法效率低- -、
-                    //打印 questInfo
-                    StringBuilder sbOut=new StringBuilder("TimeMonitor Warn:TimeOut:\n");
-                    sbOut.append(questInfo.toString());
-                    loggerMonitor.warn(sbOut.toString());
+                //打印 questInfo
+                StringBuilder sbOut = new StringBuilder("TimeMonitor Warn:TimeOut:\n");
+                sbOut.append(questInfo.toString());
+                loggerMonitor.warn(sbOut.toString());
 //                }
             }
         } catch (Throwable e) {

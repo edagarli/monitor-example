@@ -11,47 +11,47 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class WelcomeController {
 
-	private static final Logger logger = Logger.getLogger(WelcomeController.class);
+    private static final Logger logger = Logger.getLogger(WelcomeController.class);
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView getWelcome() {
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ModelAndView getWelcome() {
 
-		//logs debug message
-		if(logger.isDebugEnabled()){
-			logger.debug("getWelcome is executed!");
-		}
+        //logs debug message
+        if (logger.isDebugEnabled()) {
+            logger.debug("getWelcome is executed!");
+        }
 
-		ModelAndView model = new ModelAndView("welcome");
-		model.addObject("msg", "hello,edagarli");
-		return model;
-	}
+        ModelAndView model = new ModelAndView("welcome");
+        model.addObject("msg", "hello,edagarli");
+        return model;
+    }
 
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public ModelAndView getTestMsg() {
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public ModelAndView getTestMsg() {
 
-		ModelAndView model = new ModelAndView("welcome");
-		String msg = "";
+        ModelAndView model = new ModelAndView("welcome");
+        String msg = "";
 
 //		System.out.println( Thread.currentThread().getName()  + " --> " + helloEdagarService.hello());
 
-		for (int i = 0; i<30; i++){
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					try{
-						Thread.sleep(2000);
-						System.out.println( Thread.currentThread().getName()  + " --> " + helloEdagarService.hello());
-					}catch (Exception e){
-						e.printStackTrace();
-					}
-				}
-			}).start();
-		}
+        for (int i = 0; i < 30; i++) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(2000);
+                        System.out.println(Thread.currentThread().getName() + " --> " + helloEdagarService.hello());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
 
-		model.addObject("msg", msg);
-		return model;
-	}
+        model.addObject("msg", msg);
+        return model;
+    }
 
-	@Autowired
-	private HelloEdagarService helloEdagarService;
+    @Autowired
+    private HelloEdagarService helloEdagarService;
 }
