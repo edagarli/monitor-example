@@ -1,4 +1,4 @@
-package com.mkyong.common.controller.TimerMonitor.util;
+package me.edagarli.TimerMonitor.util;
 
 import java.util.LinkedList;
 

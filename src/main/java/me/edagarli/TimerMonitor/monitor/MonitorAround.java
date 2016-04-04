@@ -1,7 +1,7 @@
-package com.mkyong.common.controller.TimerMonitor.monitor;
+package me.edagarli.TimerMonitor.monitor;
 
-import com.mkyong.common.controller.TimerMonitor.util.MethodInfo;
-import com.mkyong.common.controller.TimerMonitor.util.QuestInfo;
+import me.edagarli.TimerMonitor.util.MethodInfo;
+import me.edagarli.TimerMonitor.util.QuestInfo;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
