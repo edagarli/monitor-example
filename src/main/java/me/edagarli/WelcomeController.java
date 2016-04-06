@@ -34,19 +34,22 @@ public class WelcomeController {
 
 //		System.out.println( Thread.currentThread().getName()  + " --> " + helloEdagarService.hello());
 
-        for (int i = 0; i < 30; i++) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(2000);
-                        System.out.println(Thread.currentThread().getName() + " --> " + helloEdagarService.hello());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
-        }
+      try{
+          for (int i = 0; i < 30; i++) {
+              new Thread(new Runnable() {
+                  @Override
+                  public void run() {
+                      try {
+                          System.out.println(Thread.currentThread().getName() + " --> " + helloEdagarService.hello());
+                      } catch (Exception e) {
+                          e.printStackTrace();
+                      }
+                  }
+              }).start();
+          }
+      }catch (Exception e){
+          e.printStackTrace();
+      }
 
         model.addObject("msg", msg);
         return model;

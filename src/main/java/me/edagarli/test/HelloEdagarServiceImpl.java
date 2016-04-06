@@ -18,9 +18,9 @@ public class HelloEdagarServiceImpl implements HelloEdagarService {
     @Override
     public String hello() {
         String msg = "";
-        for (int i = 0; i < 1000000; i++) {
-
-        }
+//        for (int i = 0; i < 1000000; i++) {
+//
+//        }
 
         msg += "hello,edagarli(" + service.address() + "),Project address: " + service.projectAddress();
 

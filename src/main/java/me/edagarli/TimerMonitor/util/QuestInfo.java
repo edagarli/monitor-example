@@ -2,20 +2,19 @@ package me.edagarli.TimerMonitor.util;
 
 import java.util.LinkedList;
 
-/**
- * Created by zhou on 2016/3/10.
- */
-public class QuestInfo {
+public class QuestInfo
+{
     private int level = 0;
     private long startTime;
     private LinkedList<MethodInfo> linkedList;
 
-    public QuestInfo(LinkedList<MethodInfo> linkedList) {
+    public QuestInfo(LinkedList<MethodInfo> linkedList)
+    {
         this.linkedList = linkedList;
     }
 
     public LinkedList<MethodInfo> getLinkedList() {
-        return linkedList;
+        return this.linkedList;
     }
 
     public void setLinkedList(LinkedList<MethodInfo> linkedList) {
@@ -23,7 +22,7 @@ public class QuestInfo {
     }
 
     public long getStartTime() {
-        return startTime;
+        return this.startTime;
     }
 
     public void setStartTime(long startTime) {
@@ -31,7 +30,7 @@ public class QuestInfo {
     }
 
     public int getLevel() {
-        return level;
+        return this.level;
     }
 
     public void setLevel(int level) {
@@ -39,103 +38,61 @@ public class QuestInfo {
     }
 
     public void increaseLevel() {
-        this.level++;
+        this.level += 1;
     }
 
     public void decreaseLevel() {
-        this.level--;
+        this.level -= 1;
     }
 
-
-    @Override
-    public String toString() {
-//        try {
-//        //假设 int x[]是后序遍历多叉树获得的层数
-//        //x[i]>=x[i-1]  x[i]就是叶子节点 第一个肯定是叶子节点
-//        MethodInfo methodInfo=null;
-//        MethodInfo methodInfoPre=null;
-//        StringBuilder stringBuilder=new StringBuilder();
-//        for(int index=this.size()-1;index>=0;index--)
-//        {//从后往前
-//            methodInfo=(MethodInfo)this.get(index);
-//            if(index==0)//第一个了
-//            {
-//               stringBuilder.append(getAappendString(true,methodInfo));
-//            }else//不是第一个  那么总有前一个methodInfoPre
-//            {
-//                methodInfoPre=(MethodInfo)this.get(index-1);
-//                if(methodInfo.getLevel()>=methodInfoPre.getLevel())//叶子节点
-//                {
-//                    stringBuilder.append(getAappendString(true,methodInfo));
-//                }else
-//                {
-//                    stringBuilder.append(getAappendString(false,methodInfo));
-//                }
-//            }
-//        }
-//        return stringBuilder.toString();
-//        }catch (Exception e)
-//        {
-//            return "TimerLinkedList.toString() Error! ";
-//        }
-
-
-        try {
-            return printTree(linkedList, 0, linkedList.size() - 1);
+    public String toString()
+    {
+        try
+        {
+            return printTree(this.linkedList, 0, this.linkedList.size() - 1);
         } catch (Exception e) {
-            return "MethodInfo.toString() Error! ";
         }
+        return "MethodInfo.toString() Error! ";
     }
 
-    /**
-     * 叶子节点是+-----开头  否则是以-------+开头  并且按层数缩进
-     *
-     * @param isLeaf
-     * @param methodInfo
-     * @return
-     */
-    private String getAappendString(boolean isLeaf/*是否叶子节点*/, MethodInfo methodInfo) {
+    private String getAappendString(boolean isLeaf, MethodInfo methodInfo)
+    {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < methodInfo.getLevel(); i++) {
-            stringBuilder.append("    ");//增加缩进
+        for (int i = 0; i < methodInfo.getLevel(); i++)
+        {
+            stringBuilder.append("    ");
         }
-        if (isLeaf) {
+        if (isLeaf)
+        {
             stringBuilder.append("+---[");
-        } else {
-            stringBuilder.append("---+[");
         }
-        stringBuilder.append((methodInfo.getStartTime() - this.getStartTime()) / 1000000).append("-");
-        stringBuilder.append((methodInfo.getEndTime() - this.getStartTime()) / 1000000).append("]");
-        stringBuilder.append((methodInfo.getEndTime() - methodInfo.getStartTime()) / 1000000).append("ms ");
+        else stringBuilder.append("---+[");
+
+        stringBuilder.append((methodInfo.getStartTime().longValue() - getStartTime()) / 1000000L).append("-");
+        stringBuilder.append((methodInfo.getEndTime().longValue() - getStartTime()) / 1000000L).append("]");
+        stringBuilder.append((methodInfo.getEndTime().longValue() - methodInfo.getStartTime().longValue()) / 1000000L).append("ms ");
         stringBuilder.append(methodInfo.getMethodName()).append("\n");
         return stringBuilder.toString();
     }
 
-    /**
-     * linkList 是后序遍历树获得的 其中每个节点有层数信息（最顶上的是0层 下面是 1 2..） 可以通过递归它 获得前序遍历的顺序 并打印
-     *
-     * @param linkedList
-     * @param startIndex 开始的标记位 包含
-     * @param endIndex   结束的标记位 包含
-     * @return
-     */
-    private String printTree(LinkedList<MethodInfo> linkedList, int startIndex, int endIndex)//初始为 0   size-1
+    private String printTree(LinkedList<MethodInfo> linkedList, int startIndex, int endIndex)
     {
         StringBuilder stringBuilder = new StringBuilder();
-        int headLevel = linkedList.get(endIndex).getLevel();
+        int headLevel = ((MethodInfo)linkedList.get(endIndex)).getLevel();
         if (startIndex == endIndex) {
-            stringBuilder.append(getAappendString(true, linkedList.get(endIndex)));//叶子节点
+            stringBuilder.append(getAappendString(true, (MethodInfo)linkedList.get(endIndex)));
             return stringBuilder.toString();
-        } else {
-            stringBuilder.append(getAappendString(false, linkedList.get(endIndex)));
         }
-        //打印完头结点 从前往后着个扫描level低一级的树
-        int nextHeadLevel = headLevel + 1;//下一层的头结点的层数  最头上的层数的是0 下一层是1
+
+        stringBuilder.append(getAappendString(false, (MethodInfo)linkedList.get(endIndex)));
+
+        int nextHeadLevel = headLevel + 1;
         int tempStartIndex = startIndex;
-        for (int i = startIndex; i < endIndex; i++) {
-            if (linkedList.get(i).getLevel() == nextHeadLevel)//找到了下一层树的头  ps:如果有跳跃层级的现象 说明原始的list有问题 就不会被打印了
+        for (int i = startIndex; i < endIndex; i++)
+        {
+            if (((MethodInfo)linkedList.get(i)).getLevel() == nextHeadLevel)
             {
-                stringBuilder.append(printTree(linkedList, tempStartIndex, i));//递归
+                stringBuilder.append(printTree(linkedList, tempStartIndex, i));
                 tempStartIndex = i + 1;
             }
         }

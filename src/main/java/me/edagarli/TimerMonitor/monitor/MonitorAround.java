@@ -27,52 +27,54 @@ public class MonitorAround {
 
     public Object watchPerformance(ProceedingJoinPoint joinpoint) throws Throwable {
         Object result = null;
+        QuestInfo questInfo = null;
+        long startTime = 0L;
+        long endTime = 0L;
         try {
-            QuestInfo questInfo = myThreadLocal.get();
+            questInfo = (QuestInfo)this.myThreadLocal.get();
             if (questInfo == null) {
-                questInfo = new QuestInfo(new LinkedList<MethodInfo>());
+                questInfo = new QuestInfo(new LinkedList());
                 questInfo.setStartTime(System.nanoTime());
-                myThreadLocal.set(questInfo);
+                this.myThreadLocal.set(questInfo);
             }
-
-            // 第一层方法进来是否要清空LocalThread 效率问题 不清空也没事
-            // 下次该线程有方法走完也会被清空
-
             questInfo.increaseLevel();
-            long startTime = System.nanoTime();
-            /*run method*/
+            startTime = System.nanoTime();
+        } catch (Throwable e) {
+            this.loggerMonitor.error(e.getMessage(), e);
+            this.myThreadLocal.remove();
+        }
+        try
+        {
             result = joinpoint.proceed();
-            /*End run method*/
-            long endTime = System.nanoTime();
-            questInfo.decreaseLevel();
-            MethodInfo methodInfo = new MethodInfo(
-                    questInfo.getLevel(),/*层次*/
-                    joinpoint.getSignature().toString(),/*方法名字*/
-                    startTime,/*开始时间*/
-                    endTime);/*结束时间*/
+        } catch (Throwable e) {
+            e.printStackTrace();
+            this.myThreadLocal.remove();
+        }
 
-            questInfo.getLinkedList().add(methodInfo);//方法多叉树的后序遍历的顺序
-            if (questInfo.getLevel() == 0) {//最外层判断是否超过最大时间值
-                myThreadLocal.remove();//清理
-//                if (( endTime-startTime) > maxTime*1000000) {//我听说除法效率比乘法效率低- -、
-                //打印 questInfo
-                StringBuilder sbOut = new StringBuilder("TimeMonitor Warn:TimeOut:\n");
-                sbOut.append(questInfo.toString());
-                loggerMonitor.warn(sbOut.toString());
+        try
+        {
+            endTime = System.nanoTime();
+            questInfo.decreaseLevel();
+
+            MethodInfo methodInfo = new MethodInfo(questInfo
+                    .getLevel(), joinpoint
+                    .getSignature().toString(),
+                    Long.valueOf(startTime),
+                    Long.valueOf(endTime));
+
+            questInfo.getLinkedList().add(methodInfo);
+            if (questInfo.getLevel() == 0) {
+                this.myThreadLocal.remove();
+//                if (endTime - startTime > this.maxTime * 1000000)
+//                {
+                    StringBuilder sbOut = new StringBuilder("TimeMonitor Warn:LongTime:\n");
+                    sbOut.append(questInfo.toString());
+                    this.loggerMonitor.warn(sbOut.toString());
 //                }
             }
         } catch (Throwable e) {
-            //不记录异常信息  否则日志不方便阅读  抛出
-//            StringBuilder sbErrorOut=new StringBuilder();
-//            sbErrorOut.append("\nTimeMonitor Error:Method stack Info:\n");
-//            sbErrorOut.append(joinpoint.getSignature().toString()).append("\n");
-//            sbErrorOut.append("TimeMonitor Error:Method time Info:\n");
-//            sbErrorOut.append(myThreadLocal.get().toString()).append("\n");
-//            loggerMonitor.error(sbErrorOut.toString());
-//            loggerMonitor.error("TimeMonitor Error:Error Info:");
-//            loggerMonitor.error(e.getMessage(), e);
-            myThreadLocal.remove();//清空本地缓存
-            throw e;//抛出异常
+            this.loggerMonitor.error(e.getMessage(), e);
+            this.myThreadLocal.remove();
         }
         return result;
     }
